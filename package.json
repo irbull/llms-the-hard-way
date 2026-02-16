@@ -1,0 +1,14 @@
+{
+  "name": "microgpt",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A minimal GPT implementation in pure TypeScript, ported from @karpathy's microgpt.py",
+  "scripts": {
+    "train": "npx tsx src/phrases-train.ts",
+    "generate": "npx tsx src/phrases-generate.ts"
+  },
+  "dependencies": {
+    "@types/node": "^25.2.3",
+    "typescript": "^5.9.3"
+  }
+}
