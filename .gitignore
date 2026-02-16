@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.beads/
+CLAUDE.md
+*-model.json
+phrases-model.json
+phrases-model-20k_train.json
+phrases-fine-tuned-model.json
+

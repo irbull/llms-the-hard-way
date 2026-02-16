@@ -1,0 +1,150 @@
+can the cat run
+can the cat jump
+can the cat climb
+can the dog eat
+can the dog play
+can the dog dig
+can the dog sit
+can the dog hide
+can the bird fly
+can the bird sing
+can the bird hop
+can the bird eat
+can the fish swim
+can the fish hide
+can the frog jump
+can the frog swim
+can the duck swim
+can the duck fly
+can the duck eat
+can the hen eat
+can the hen sit
+can the cow eat
+can the cow walk
+can the pig eat
+can the pig run
+can the pig dig
+can the bear climb
+can the bear eat
+can the fox dig
+can the owl fly
+can the owl sit
+can the deer run
+can the deer jump
+can the pup run
+can the bee fly
+can the bug hop
+can the boy read
+can the boy draw
+can the boy paint
+can the girl dance
+can the kid kick
+can the man help
+can dad help
+can we play
+can you run
+do cats run
+do cats jump
+do cats hide
+do dogs sit
+do birds fly
+do birds sing
+do fish swim
+do fish eat
+do frogs swim
+do frogs eat
+do frogs hide
+do ducks swim
+do ducks fly
+do hens run
+do cows eat
+do pigs dig
+do bears run
+do bears swim
+do bears climb
+do foxes hide
+do foxes dig
+do deer run
+do deer jump
+do we play
+do we sing
+do we dance
+do we swim
+do you sing
+do you dance
+do you help
+is the cat big
+is the cat small
+is the cat fast
+is the dog fast
+is the dog happy
+is the dog loud
+is the dog old
+is the bird small
+is the bird loud
+is the frog small
+is the duck big
+is the duck cute
+is the hen old
+is the hen quiet
+is the bear big
+is the bear brave
+is the bear wild
+is the horse fast
+is the horse tall
+is the horse big
+is the boy happy
+is the boy tall
+is the boy brave
+is the girl happy
+is the girl nice
+is the kid shy
+is the man tall
+is the woman nice
+is the cake sweet
+is the cake good
+is the ball big
+is the book new
+is the hat new
+is the toy fun
+is mom happy
+is dad tired
+is dad proud
+is dad brave
+where is the cat
+where is the book
+where is the cake
+where is the egg
+where is the hat
+where is the kite
+where is the cup
+where is the frog
+where is the bug
+where is the cow
+where is the net
+where is the pen
+where is the doll
+where is the car
+where is the cat in the barn
+where is the cat at the farm
+where is the dog in the yard
+where is the duck at the lake
+where is the owl in the tree
+where is the horse at the farm
+where is the book at the desk
+where is the egg in the nest
+where is the shoe in the bag
+where is the cup in the house
+where is the boat at the dock
+where is the bike at the park
+where is the bat in the cave
+where is the van at the farm
+where is the doll in the bed
+where is the pen at the desk
+where is the drum in the room
+where is the pan in the house
+where is the boy at the park
+where is the girl at the farm
+where is the kid in the yard
+where is the ant in the garden
+where is the bee in the garden
