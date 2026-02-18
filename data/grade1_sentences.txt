@@ -4798,7 +4798,6 @@ jen is thin
 we skip up the path
 put the net on the pie
 the owl shuts the flag
-the goat is funny
 the dog cleans from the den
 look at a ball
 sam cries under the tent
@@ -29998,3 +29997,4 @@ i drink a bug
 the sheep is new
 jen wants to fly
 on wednesday we fold
+the goat is funny

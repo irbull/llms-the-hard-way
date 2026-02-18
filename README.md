@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="hard-way-icon.png" alt="LLMs, the Hard Way" width="128">
+</p>
+
 # LLMs, the Hard Way
 
 I really appreciate it when someone distills complex concepts down to their
