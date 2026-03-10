@@ -11,6 +11,9 @@ ground-up guide to building a language model that writes English sentences. No f
 matrix libraries. Just TypeScript, math, and 30,000 sentences a first-grader
 could read.
 
+The tutorial is published as a mdBook:
+### [https://llms.ianbull.com](https://llms.ianbull.com)
+
 This tutorial was inspired by [Karpathy's MicroGPT](https://karpathy.github.io/2026/02/12/microgpt/) with a slightly
 different dataset. Instead of human names, I used grade school sentences. I
 changed the tokenizer to use words instead of letters and split the process
