@@ -2,7 +2,7 @@
   <img src="hard-way-icon.png" alt="LLMs, the Hard Way" width="128" height="128">
 </p>
 
-# LLMs, the Hard Way
+# LLMs, the Hard Way: https://llms.ianbull.com
 
 I really appreciate it when someone distills complex concepts down to their
 building blocks. Nobody does this better than [Kelsey Hightower](https://github.com/kelseyhightower) and [Andrej
