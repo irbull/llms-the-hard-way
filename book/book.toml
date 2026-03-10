@@ -1,7 +1,6 @@
 [book]
 authors = ["Ian Bull"]
 language = "en"
-multilingual = false
 src = "src"
 title = "LLMs, the Hard Way"
 description = "Build a GPT language model from scratch in TypeScript"
