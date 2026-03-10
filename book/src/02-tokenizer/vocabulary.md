@@ -25,7 +25,7 @@ Index 595: "zoo"
 We then add one special token: **BOS** (Beginning of Sequence), assigned index
 596. This marker tells the model "a sentence starts here" and "a sentence ends
 here." Production models typically use separate BOS and EOS (End of Sequence)
-tokens. We use a single token for both roles — the model sees BOS at the start
+tokens. We use a single token for both roles: the model sees BOS at the start
 and learns that predicting BOS means the sentence is over.
 
 Total vocabulary size: **597** (596 words + 1 BOS token).

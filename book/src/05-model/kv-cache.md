@@ -2,8 +2,8 @@
 
 The model processes **one token at a time**. If we have the sentence
 "the cat eats...", when we feed it "cat" at position 2, it does not
-automatically know that "the" came before it. But attention — the
-mechanism that lets the model look at previous words — needs access to
+automatically know that "the" came before it. But attention, the
+mechanism that lets the model look at previous words, needs access to
 those earlier tokens. How?
 
 The answer is that we **cache** the key and value vectors computed at every
@@ -54,4 +54,4 @@ export function createKVCache(model: Model): {
 
 The type `Value[][][]` is one list per layer (we have 2 layers, so 2 lists).
 Each list starts empty and grows as tokens are processed. A fresh cache means
-a fresh sentence — the model has no memory of previous sentences.
+a fresh sentence. The model has no memory of previous sentences.

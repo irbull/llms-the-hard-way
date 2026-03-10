@@ -6,13 +6,13 @@ model. What is a model, concretely?
 **A model is a configuration plus a large collection of numbers (parameters).**
 
 Before training, these numbers are random. After training, they encode
-everything the model has learned about language. The architecture (how those
-numbers are wired together) determines what the model *can* learn. The
+everything the model has learned about language. The **architecture** (how
+those numbers are wired together) determines what the model *can* learn. The
 training process determines what it *does* learn.
 
 ## What the Model Contains
 
-Concretely, the model is a nested structure of weight matrices — arrays of
+Concretely, the model is a nested structure of weight matrices: arrays of
 arrays of `Value` nodes. Each matrix has a specific shape and role. Here is
 every piece:
 
@@ -45,9 +45,16 @@ Every number in every matrix is a `Value`. That means the autograd engine can
 compute gradients for all 63,296 of them. The rest of this chapter explains
 what each piece does and how they connect.
 
-## The Forward Pass
+## Model Architecture
 
-Here is what happens when we feed a token into the model:
+Our model is a **decoder-only transformer**. This is the same architecture
+behind GPT-2, GPT-3, GPT-4, and LLaMA. "Decoder-only" means it processes
+tokens left to right, predicting the next token from the ones before it. There
+is no separate encoder; the same stack of layers both reads the context and
+produces predictions.
+
+Here is the full architecture, showing the path a single token takes through
+the model:
 
 ```
 Token ID (e.g. 541 = "the") + Position (e.g. 2)
@@ -74,8 +81,14 @@ Token ID (e.g. 541 = "the") + Position (e.g. 2)
 "logits", unnormalized predictions for the next word
 ```
 
+Each transformer layer has two blocks: **multi-head attention** (which gathers
+information from previous tokens) and an **MLP** (which processes each token's
+representation independently). Both blocks use **residual connections** so
+the input is added back to the output at each step. The rest of this chapter
+walks through each component in detail.
+
 The output is 597 raw scores, one per word in the vocabulary. These scores are
-called **logits** — unnormalized numbers that can be positive, negative, large,
+called **logits**: unnormalized numbers that can be positive, negative, large,
 or small. A higher logit means the model thinks that word is more likely to
 come next. On their own logits are not probabilities; they become probabilities
 when passed through `softmax` (from the previous chapter) during training or generation.
@@ -87,7 +100,8 @@ than "the" or "zoo."
 ## Simplifications
 
 Our architecture follows the same structure as GPT-2 and LLaMA, with a few
-simplifications that keep the code short without changing how the model works:
+simplifications that keep the code short without changing how the architecture
+works:
 
 | Our model | Standard GPT-2 / LLaMA | Why we simplify |
 |---|---|---|
@@ -98,5 +112,5 @@ simplifications that keep the code short without changing how the model works:
 | No final norm before output | RMSNorm before output projection | Skipped for brevity |
 
 None of these affect the core ideas. The architecture, the attention mechanism,
-the training loop — all identical. A reader who understands this model
+the training loop: all identical. A reader who understands this model
 understands the real thing.

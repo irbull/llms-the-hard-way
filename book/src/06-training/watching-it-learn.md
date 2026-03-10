@@ -18,13 +18,13 @@ The initial loss of ~6.39 corresponds to random guessing: `-log(1/597) ≈ 6.39`
 The model has no idea which of the 597 words comes next, so it assigns roughly
 equal probability to all of them.
 
-As training progresses, the model learns patterns — "the" often follows BOS,
-"cat" often follows "the", verbs follow nouns — and the loss drops. Here is
+As training progresses, the model learns patterns: "the" often follows BOS,
+"cat" often follows "the", verbs follow nouns, and the loss drops. Here is
 what each milestone roughly means:
 
 | Loss | Probability on correct word | What's happening |
 |---|---|---|
-| 6.39 | 0.17% (1/597) | Random guessing — no knowledge |
+| 6.39 | 0.17% (1/597) | Random guessing, no knowledge |
 | 3.22 | 4.0% | Learning common words and sentence starters |
 | 2.85 | 5.8% | Picking up basic word-order patterns |
 | 2.40 | 9.1% | Noun-verb associations forming |
@@ -42,7 +42,7 @@ The steepest drop occurs in the first 1,000 steps. This is when the model
 learns the easiest patterns: which words are common, which words tend to start
 sentences, and basic category associations (articles before nouns, nouns before
 verbs). The later steps produce smaller improvements as the model works on
-harder patterns — less frequent words, longer-range dependencies, and the
+harder patterns: less frequent words, longer-range dependencies, and the
 subtle differences between similar sentence structures.
 
 This is typical of neural network training: easy patterns are learned first,

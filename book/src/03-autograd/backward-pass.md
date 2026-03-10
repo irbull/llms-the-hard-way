@@ -41,7 +41,7 @@ After `backward()` runs, every `Value` in the entire computation, including
 all model parameters, has its `.grad` field filled in. Each gradient says:
 "increase this parameter slightly and the loss changes by this much."
 
-Note that `backward()` does not zero out gradients before running — it sets
+Note that `backward()` does not zero out gradients before running. It sets
 `this.grad = 1` at the root and accumulates onto whatever `.grad` values
 already exist. Calling it twice on the same graph would double-count every
 gradient. In our training loop this is not a problem: each step builds a fresh

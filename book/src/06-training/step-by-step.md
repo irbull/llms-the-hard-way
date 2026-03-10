@@ -13,21 +13,21 @@ const tokens = tokenizer.encode(sentence);
 const n = Math.min(model.config.blockSize, tokens.length - 1);
 ```
 
-We cycle through the training sentences using modular arithmetic — step 0 picks
+We cycle through the training sentences using modular arithmetic: step 0 picks
 sentence 0, step 1 picks sentence 1, and so on, wrapping back to 0 when we
 reach the end. The tokenizer turns "the cat eats a muffin" into
-`[596, 541, 89, 152, 0, 358, 596]` — a BOS marker, then each word, then BOS
+`[596, 541, 89, 152, 0, 358, 596]`: a BOS marker, then each word, then BOS
 again.
 
 The variable `n` is the number of predictions we will make. We subtract 1 from
 the token count because the last token has no "next word" to predict. We also
-cap at `blockSize` (16) because the position embedding table only has 16 rows —
-the model cannot handle longer sequences.
+cap at `blockSize` (16) because the position embedding table only has 16 rows.
+The model cannot handle longer sequences.
 
 ## 2. Feed Tokens and Predict the Next Word
 
 We create a fresh KV cache for each sentence (each sentence is a standalone
-training example — we don't carry context between sentences). Then we process
+training example; we don't carry context between sentences). Then we process
 the sentence token by token. At each position, the model sees all previous
 tokens through the cache and outputs 597 scores as its prediction for what
 comes next.
@@ -68,12 +68,12 @@ Position 5: feed "muffin"
   correct answer: BOS (end of sentence)
 ```
 
-Each call to `gpt()` builds a computation graph of `Value` nodes — thousands of
+Each call to `gpt()` builds a computation graph of `Value` nodes: thousands of
 multiply, add, and relu operations connected by pointers. All six predictions
 within a sentence share the same graph (through the KV cache), so a single
 `backward()` call later can propagate gradients through all of them at once.
 
-Early on, the model's scores are essentially random — "the" might rank 400th
+Early on, the model's scores are essentially random. "The" might rank 400th
 out of 597. The loss measures exactly how bad that is.
 
 ## 3. Compute the Loss
@@ -90,23 +90,23 @@ losses.push(probs[targetId].log().neg());
 Why negative log? Because it has exactly the shape we want:
 
 - When the model assigns probability **1.0** to the right answer:
-  loss = `-log(1) = 0`. Perfect — no penalty.
-- When the model assigns probability **0.5** — uncertain, but in the ballpark:
+  loss = `-log(1) = 0`. Perfect, no penalty.
+- When the model assigns probability **0.5**, uncertain but in the ballpark:
   loss = `-log(0.5) = 0.693`. A gentle nudge.
-- When the model assigns probability **0.01** — almost entirely wrong:
+- When the model assigns probability **0.01**, almost entirely wrong:
   loss = `-log(0.01) = 4.605`. A hard shove.
 
 The penalty grows slowly at first, then accelerates toward infinity. This is
-what pushes the model to avoid being confidently wrong — a model that puts 90%
+what pushes the model to avoid being confidently wrong. A model that puts 90%
 probability on the wrong word gets punished far more than one that spreads its
 bets.
 
 | Model assigns to correct word | Loss | Meaning |
 |---|---|---|
-| 0.90 | 0.105 | Low loss — strong, correct prediction |
-| 0.50 | 0.693 | Moderate loss — uncertain but reasonable |
-| 0.17 | 1.772 | High loss — mostly wrong |
-| 0.01 | 4.605 | Very high loss — confidently wrong |
+| 0.90 | 0.105 | Low loss: strong, correct prediction |
+| 0.50 | 0.693 | Moderate loss: uncertain but reasonable |
+| 0.17 | 1.772 | High loss: mostly wrong |
+| 0.01 | 4.605 | Very high loss: confidently wrong |
 
 The total loss for the sentence is the average across all positions:
 
@@ -115,7 +115,7 @@ const loss = vsum(losses).div(n);
 ```
 
 Averaging means the model is equally penalized whether the sentence has 3 words
-or 15 — otherwise long sentences would dominate the gradient signal and short
+or 15. Otherwise long sentences would dominate the gradient signal and short
 sentences would barely contribute to learning.
 
 ## 4. Compute Gradients (Backward Pass)
@@ -126,16 +126,16 @@ One call to `backward()` fills in the gradient for every parameter:
 loss.backward();
 ```
 
-`backward()` returns nothing — it works entirely through side effects. It walks
+`backward()` returns nothing; it works entirely through side effects. It walks
 the computation graph built during the forward pass (all those `Value` nodes
 connected by pointers) and sets the `.grad` field on every node that
 participated in the computation. After it runs, each parameter's `.grad`
 answers the question: *if I increase this parameter by a tiny amount, how much
 does the loss change?*
 
-A positive gradient means "increasing this parameter makes the loss worse" —
+A positive gradient means "increasing this parameter makes the loss worse,"
 so the optimizer will decrease it. A negative gradient means "increasing this
-parameter makes the loss better" — so the optimizer will increase it. A large
+parameter makes the loss better," so the optimizer will increase it. A large
 gradient means this parameter has a big effect on the current prediction; a
 small gradient means it barely matters for this sentence.
 
@@ -143,7 +143,7 @@ small gradient means it barely matters for this sentence.
 
 Not all 63,296 parameters get meaningful gradients from every sentence. The
 layer weights (attention, MLP, output projection) are used in full on every
-forward pass — `linear()` computes a dot product with every row — so they
+forward pass (`linear()` computes a dot product with every row) so they
 always receive gradients. But embedding lookup is just array indexing: only the
 rows for tokens that appear in the current sentence enter the computation graph.
 
@@ -151,12 +151,12 @@ For a 7-token sentence like "the cat eats a muffin", only 6 unique token
 embedding rows are touched (plus 6 position embedding rows). The remaining 591
 token embedding rows keep their `.grad` at 0 and are not updated this step.
 Over the full training run, each word appears in many sentences, so every
-embedding row eventually gets trained — but frequent words get far more updates
+embedding row eventually gets trained, but frequent words get far more updates
 than rare ones.
 
 ## 5. Update Parameters (Adam Optimizer)
 
-The simplest approach would be `param -= learningRate * grad` — nudge each
+The simplest approach would be `param -= learningRate * grad`: nudge each
 parameter in the direction opposite its gradient. But this has two problems:
 
 1. **Noisy gradients.** Each step only sees one sentence, so the gradient for
@@ -179,7 +179,7 @@ vBuf[i] = beta2 * vBuf[i] + (1 - beta2) * params[i].grad ** 2;
 
 - **`mBuf` (momentum)**: a running average of the gradient direction. With
   `beta1 = 0.85`, each new gradient contributes 15% and the history contributes
-  85%. This smooths out noise — if the gradient has been pointing left for
+  85%. This smooths out noise: if the gradient has been pointing left for
   several steps, the momentum keeps pushing left even if one step says right.
 
 - **`vBuf` (velocity)**: a running average of the squared gradient magnitude.
@@ -190,7 +190,7 @@ vBuf[i] = beta2 * vBuf[i] + (1 - beta2) * params[i].grad ** 2;
 ### Bias Correction
 
 At the start of training, both `mBuf` and `vBuf` are initialized to zero. That
-makes the early running averages severely biased toward zero — after one step,
+makes the early running averages severely biased toward zero. After one step,
 `mBuf` is only 15% of the first gradient. The bias correction fixes this:
 
 ```typescript
@@ -198,7 +198,7 @@ const mHat = mBuf[i] / (1 - beta1 ** (step + 1));
 const vHat = vBuf[i] / (1 - beta2 ** (step + 1));
 ```
 
-At step 0: `1 - 0.85^1 = 0.15`, so `mHat` divides by 0.15 — effectively
+At step 0: `1 - 0.85^1 = 0.15`, so `mHat` divides by 0.15, effectively
 undoing the 85% shrinkage. By step 20, `1 - 0.85^21 ≈ 0.97`, and the
 correction is negligible. This ensures the early updates are the right size
 from the start.
@@ -290,6 +290,6 @@ for (let step = 0; step < numSteps; step++) {
 
 Every operation in the forward pass uses `Value` nodes, so the entire path from
 token to loss is a single computation graph. When `backward()` runs, gradients
-flow back through every step — from the loss, through softmax, through every
+flow back through every step, from the loss, through softmax, through every
 layer's attention and MLP blocks, all the way to the embedding lookup. That is
 the whole training loop: predict, measure, learn, repeat.

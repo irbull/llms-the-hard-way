@@ -1,7 +1,7 @@
 # The Math You Need
 
 Training a neural network relies on a small set of ideas from calculus. If
-your calculus is rusty — or you never took it — this section covers everything
+your calculus is rusty (or you never took it), this section covers everything
 you need before we start writing code.
 
 ## What Is a Derivative?
@@ -26,16 +26,16 @@ produces roughly 6 times that nudge in the output.
 The notation trips people up because it appears in several forms that all mean
 the same thing.
 
-**dy/dx** — Read as "the derivative of y with respect to x." How much does y
+**dy/dx**: Read as "the derivative of y with respect to x." How much does y
 change when you nudge x? Think of it as "a tiny change in y divided by a tiny
-change in x" — which is exactly what a slope is.
+change in x," which is exactly what a slope is.
 
-**d/dx \[f\]** — The d/dx part is an **operator** meaning "take the derivative
+**d/dx \[f\]**: The d/dx part is an **operator** meaning "take the derivative
 of whatever follows, with respect to x." So d/dx \[x²\] asks "what is the
 derivative of x² with respect to x?" Answer: 2x. This is just another way of
 writing the same thing as dy/dx.
 
-**d(loss)/dz** — "The derivative of loss with respect to z." You see different
+**d(loss)/dz**: "The derivative of loss with respect to z." You see different
 letters in the denominator because you are asking about different variables at
 different points in the computation. At one node you ask "how does loss change
 if I nudge z?" At the next you ask "how does loss change if I nudge x?"
@@ -126,17 +126,17 @@ Just arithmetic. Compute each value and remember which operation produced it.
 ### Backward pass (right to left)
 
 We want to know: how sensitive is `loss` to each input? Start at `loss`.
-By convention, d(loss)/d(loss) = 1.0 — the loss is perfectly sensitive to
+By convention, d(loss)/d(loss) = 1.0. The loss is perfectly sensitive to
 itself.
 
-**Step 1 — through the + node.**
+**Step 1: through the + node.**
 
 loss = z + 1, so d(loss)/dz = 1. Adding a constant doesn't change the
-slope — a nudge to z passes through to loss unchanged.
+slope: a nudge to z passes through to loss unchanged.
 
 > z.grad = 1.0
 
-**Step 2 — through the × node.**
+**Step 2: through the × node.**
 
 z = x × y. Using the product rule, dz/dx = y and dz/dy = x. Apply the
 chain rule:
@@ -150,7 +150,7 @@ So x.grad = 3.0 and y.grad = 2.0.
 ### Sanity check
 
 We used the chain rule to compute x.grad = 3.0. Can we verify that without
-any calculus? Yes — just run the computation twice, once normally and once
+any calculus? Yes: just run the computation twice, once normally and once
 with x nudged by a tiny amount, and measure how much the loss actually
 changed:
 
@@ -166,6 +166,6 @@ completely independent methods give the same result, which confirms the
 calculus was correct.
 
 This is what autograd does automatically for every node in the graph, no
-matter how large the computation grows — except it uses the chain rule, not
+matter how large the computation grows, except it uses the chain rule, not
 brute force, because running the full computation twice per parameter would
 be far too slow.

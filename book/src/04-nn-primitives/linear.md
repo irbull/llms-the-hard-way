@@ -1,7 +1,7 @@
 # Linear (Matrix-Vector Multiply)
 
 The fundamental neural net operation. It transforms a vector by multiplying it
-with a weight matrix. First, a type alias — a `Matrix` is just a 2D array of
+with a weight matrix. First, a type alias. A `Matrix` is just a 2D array of
 Values:
 
 ```typescript
@@ -33,7 +33,7 @@ output = [1, 7]
 Each row of the weight matrix produces one output element. A weight matrix
 with shape 2×3 takes a 3-element input and produces a 2-element output. In the
 actual model, a weight matrix with shape 128×32 takes a 32-element input
-vector and produces a 128-element output vector. The operation is the same —
+vector and produces a 128-element output vector. The operation is the same,
 just more rows and longer dot products.
 
 This is how the model mixes information across dimensions.

@@ -35,18 +35,18 @@ And the internal linkages are:
 | `z` | 6.0 | [x, y] | [3.0, 2.0] |
 | `loss` | 7.0 | [z, Value(1)] | [1, 1] |
 
-Leaf nodes (`x` and `y`) have no children — they are the inputs. The `mul`
+Leaf nodes (`x` and `y`) have no children; they are the inputs. The `mul`
 node records both inputs as children and stores `[y.data, x.data]` as local
 gradients (the product rule). The `add` node stores `[1, 1]` because addition
 passes gradients through unchanged.
 
 This is the entire data structure that `backward()` will walk. No separate
-graph object, no registration step — the graph is just the chain of `.children`
+graph object, no registration step. The graph is just the chain of `.children`
 pointers from the loss back to the leaves.
 
 ## From Loss to Parameters
 
-In the real model, the graph is much larger — thousands of nodes — but the
+In the real model, the graph is much larger (thousands of nodes) but the
 structure is the same. The `loss` at the root points to the softmax outputs,
 which point to the logits, which point to the attention and MLP operations,
 which eventually point to the embedding lookups and weight matrices. Every

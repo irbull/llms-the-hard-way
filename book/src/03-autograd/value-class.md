@@ -12,7 +12,7 @@ remembers its **children** (the input Values) and the **local gradients**, the
 partial derivatives of that operation with respect to each input. These local gradients answer: "if I
 nudge this input, how much does the output change?"
 
-`children` and `localGrads` are parallel arrays — one local gradient per
+`children` and `localGrads` are parallel arrays: one local gradient per
 child. A binary operation like `add` or `mul` takes two inputs, so both arrays
 have two entries. A unary operation like `pow`, `log`, or `relu` takes one
 input, so both arrays have one entry. The backward pass pairs them up: the

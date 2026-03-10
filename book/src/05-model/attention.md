@@ -1,7 +1,7 @@
 # Multi-Head Attention
 
 Each transformer layer has two blocks, both using the primitives from the previous chapter.
-The first is multi-head attention — the mechanism that lets the model look at
+The first is multi-head attention, the mechanism that lets the model look at
 previous tokens to inform its prediction.
 
 ## Three Identical Projections
@@ -17,7 +17,7 @@ const value: Value[] = linear(hidden, layer.attention.value);
 These are three matrix multiplications with three different weight matrices, all
 the same shape (`[32 × 32]`). Before training, they contain random numbers.
 There is nothing in this code that makes `query` behave differently from `key`
-or `value` — they are structurally identical linear projections of the same
+or `value`. They are structurally identical linear projections of the same
 hidden state.
 
 The names describe what these projections *become*, not what they *are*. The
@@ -36,17 +36,17 @@ attention = softmax(Q · K^T / √headDim) × V
 This structure imposes hard constraints:
 
 - **Q and K always get dot-producted** to produce a similarity score. They are
-  structurally forced into a "matching" role — whatever W_q and W_k produce
+  structurally forced into a "matching" role: whatever W_q and W_k produce
   will be compared against each other.
 - **V always gets weighted-summed** using those scores. It is structurally
-  forced into a "what gets retrieved" role — the scores from Q·K gate how
+  forced into a "what gets retrieved" role: the scores from Q·K gate how
   much of each V vector flows through.
 
 What's *learned* is everything else: what Q and K match *on* (syntactic role?
 position? something we can't name?), and what V carries (whatever information
 turned out to be useful to retrieve). Q/K/V really are like query/key/value in
-a database lookup — but the schema of that database, what counts as a match,
-what's worth storing — all of that is discovered by training.
+a database lookup, but the schema of that database, what counts as a match,
+what's worth storing: all of that is discovered by training.
 
 The `√headDim` scaling prevents the dot products from growing so large that
 softmax saturates into near-zero gradients, which would kill learning.
@@ -80,7 +80,7 @@ K_BOS, K_the, K_cat, K_eats     (cached keys for positions 0, 1, 2, 3)
 V_BOS, V_the, V_cat, V_eats     (cached values for positions 0, 1, 2, 3)
 ```
 
-Compute attention scores — how much should "eats" attend to each position:
+Compute attention scores: how much should "eats" attend to each position:
 
 ```
 score("eats", BOS)    = Q_eats · K_BOS  / √8 = 0.1    (low)
@@ -96,19 +96,19 @@ sum of the value vectors:
 output = 0.02 × V_BOS  +  0.08 × V_the  +  0.66 × V_cat  +  0.24 × V_eats
 ```
 
-"cat" dominates — the information encoded in V_cat flows through strongly.
+"cat" dominates: the information encoded in V_cat flows through strongly.
 This is how the model routes information from relevant earlier tokens to the
 current position.
 
 To be honest: those scores are made up. What actually causes Q_eats · K_cat
-to be high? The weight matrices W_q and W_k learned — from millions of
-training examples — to project words into a space where verbs and their
+to be high? The weight matrices W_q and W_k learned, from millions of
+training examples, to project words into a space where verbs and their
 subjects end up pointing in similar directions. We can observe that this
 happens. We can't easily read off *why* from the weight matrices.
 
 ## Causal Masking
 
-Our model is autoregressive — it predicts the next token from previous ones.
+Our model is autoregressive: it predicts the next token from previous ones.
 Each position can only attend to itself and earlier positions, never future
 ones. In our implementation this happens naturally: the KV cache only contains
 entries for tokens that have already been processed, so there are no future
@@ -134,16 +134,16 @@ Different heads learn to attend to different things. On "the cat eats", the
 four heads might specialize like this:
 
 ```
-Head 0 — tracks grammatical subject:
+Head 0: tracks grammatical subject:
   score("eats" → "cat") = 0.9    →  output mostly carries V_cat
 
-Head 1 — tracks recency / local context:
+Head 1: tracks recency / local context:
   score("eats" → "eats") = 0.8   →  output mostly carries V_eats
 
-Head 2 — tracks determiner–noun relationships:
+Head 2: tracks determiner-noun relationships:
   score("cat" → "the") = 0.9     →  output mostly carries V_the
 
-Head 3 — honestly, nobody knows:
+Head 3: honestly, nobody knows:
   output = some mix that turns out to be useful
 ```
 
@@ -157,7 +157,7 @@ looks like, and whatever Head 3 noticed.
 
 ## Why Heads Don't All Learn the Same Thing
 
-Each head starts with different random weights. Gradient descent is local — it
+Each head starts with different random weights. Gradient descent is local: it
 nudges each head's weights based on where they started, so they drift in
 different directions. And there's no benefit to convergence: redundant heads
 contribute identical information, giving the model no extra expressive power.

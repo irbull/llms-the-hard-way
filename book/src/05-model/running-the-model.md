@@ -32,7 +32,7 @@ thing: attention, then MLP, each with a residual connection.
 
 **3a. Attention.** Save the hidden state for the residual connection, normalize,
 then compute query, key, and value vectors. Notice that normalization comes
-*before* each block, not after — this is called **pre-norm** and is what
+*before* each block, not after. This is called **pre-norm** and is what
 GPT-2 and LLaMA use. The original transformer paper normalized *after* each
 block (post-norm), but pre-norm trains more stably because the residual
 connection carries unnormalized values, giving gradients a cleaner path
@@ -76,7 +76,7 @@ hidden = hidden.map((h, i) => h.add(beforeMLP[i]));
 ```
 
 **4. Output projection.** After all layers, project the 32-dim vector to 597
-dimensions — one score per word in the vocabulary:
+dimensions, one score per word in the vocabulary:
 
 ```typescript
 return linear(hidden, weights.output);
@@ -124,7 +124,7 @@ export function gpt(
     hidden = rmsnorm(hidden);
 
     // Project the hidden state into query, key, and value vectors.
-    // These are structurally identical projections — training teaches them
+    // These are structurally identical projections. Training teaches them
     // to play different roles: query asks "what am I looking for?",
     // key advertises "what do I contain?", value carries "what to retrieve".
     const query: Value[] = linear(hidden, layer.attention.query);
@@ -152,7 +152,7 @@ export function gpt(
       // Softmax converts scores into weights that sum to 1
       const attnWeights = softmax(attnLogits);
 
-      // Weighted sum of value vectors — high-scoring positions contribute more
+      // Weighted sum of value vectors. High-scoring positions contribute more
       for (let j = 0; j < headDim; j++) {
         attentionOutput.push(vsum(attnWeights.map((w, t) => w.mul(headValues[t][j]))));
       }
@@ -175,7 +175,7 @@ export function gpt(
   }
 
   // Step 3: Output projection
-  // Project the final hidden state to vocabulary size — one score per word.
+  // Project the final hidden state to vocabulary size: one score per word.
   // These raw scores (logits) will be passed through softmax later to get
   // a probability distribution over the next token.
   // Note: standard GPT-2 and LLaMA apply a final normalization here
@@ -186,5 +186,5 @@ export function gpt(
 
 Every operation here uses `Value` nodes, so the entire forward pass builds a
 computation graph. When we call `backward()` on the loss later, gradients flow
-back through every step — from the output projection, through the MLP and
+back through every step, from the output projection, through the MLP and
 attention blocks, all the way to the embedding lookup.

@@ -1,6 +1,6 @@
 # Softmax (Scores to Probabilities)
 
-Neural networks often produce raw, unnormalized scores — numbers that can be
+Neural networks often produce raw, unnormalized scores: numbers that can be
 positive, negative, large, or small. On their own these scores don't mean
 much. Softmax converts a vector of scores into a **probability distribution**:
 a vector of positive numbers that sum to 1.

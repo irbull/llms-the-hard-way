@@ -55,7 +55,7 @@ over a trillion parameters. It trains on trillions of words scraped from
 books, code repositories, scientific papers, and the open web.
 
 But the architecture is the same. Embeddings, attention, feed-forward layers,
-residual connections, softmax over the vocabulary — every piece you will build
+residual connections, softmax over the vocabulary: every piece you will build
 in this tutorial is a piece that ships in production LLMs. The difference is
 not a difference in kind. It is a difference in scale.
 

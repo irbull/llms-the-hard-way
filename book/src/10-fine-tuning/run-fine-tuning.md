@@ -41,7 +41,7 @@ const fineTuned = train(
   model,
   {
     numSteps: 1000,         // 1,000 vs 5,000 for pre-training
-    learningRate: 0.001,    // 0.001 vs 0.01 — 10x lower
+    learningRate: 0.001,    // 0.001 vs 0.01, 10x lower
     beta1: 0.85,
     beta2: 0.99,
     epsAdam: 1e-8,

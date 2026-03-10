@@ -28,7 +28,7 @@ better predictions. Each step processes one sentence through five stages:
 repeat 5,000 times
 ```
 
-The `gpt()` function from the model chapter handles the forward pass — turning
+The `gpt()` function from the model chapter handles the forward pass: turning
 a token into 597 scores. This chapter covers what happens around it: measuring
 how wrong those predictions are, computing gradients, and updating the weights.
 

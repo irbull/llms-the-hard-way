@@ -31,13 +31,13 @@ const positionVector: Value[] = weights.positionEmbedding[posId]; // where in th
 let hidden: Value[] = tokenVector.map((t, i) => t.add(positionVector[i])); // combine
 ```
 
-This combined vector — `hidden` — is 32 numbers encoding both the word identity
+This combined vector, `hidden`, is 32 numbers encoding both the word identity
 and its position. It is the hidden state that flows through the rest of the
 network.
 
 Notice that embedding lookup is **array indexing**, not a matrix multiply.
 When the model processes token 541, only row 541 of the embedding table enters
-the computation graph. The other 596 rows are never touched — they receive no
+the computation graph. The other 596 rows are never touched; they receive no
 gradients during the backward pass and are not updated. Over many training
 sentences different words appear, so different rows get updated at different
 times. Words that appear frequently develop better embeddings than rare ones,

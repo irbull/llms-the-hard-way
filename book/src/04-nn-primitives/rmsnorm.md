@@ -22,13 +22,13 @@ root mean square: √12.5 ≈ 3.54
 divide each:      [3.0 / 3.54, 4.0 / 3.54] ≈ [0.85, 1.13]
 ```
 
-The values have been rescaled so they sit near 1 — but their relative
+The values have been rescaled so they sit near 1, but their relative
 proportions (3:4) are preserved. Without normalization, activations can
 explode or vanish across layers, making training unstable.
 
 Real RMSNorm includes a learnable per-element scale parameter (gamma) that
 lets each dimension adjust its magnitude after normalization. We omit it for
-simplicity — our model trains fine without it at this scale.
+simplicity; our model trains fine without it at this scale.
 
 ## Summary
 

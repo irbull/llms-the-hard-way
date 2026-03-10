@@ -23,7 +23,7 @@ for (let posId = 0; posId < model.config.blockSize; posId++) {
   // 3. Top-p: keep smallest set whose probabilities sum to p
   if (topP < 1.0) { /* accumulate sorted probs, zero out the rest */ }
 
-  // 4. Softmax and sample (plain math — no autograd needed at inference)
+  // 4. Softmax and sample (plain math, no autograd needed at inference)
   const maxS = Math.max(...scores.filter((s) => s !== -Infinity));
   const exps = scores.map((s) => (s === -Infinity ? 0 : Math.exp(s - maxS)));
   const total = exps.reduce((a, b) => a + b, 0);
