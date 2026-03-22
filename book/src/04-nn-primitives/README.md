@@ -13,7 +13,7 @@ a surprisingly small toolkit:
 2. **A way to make decisions.** The model needs to express confidence: "I
    think the next word is 70% likely to be *cat* and 20% likely to be *dog*."
    Raw scores can be any number, but probabilities must be positive and sum to
-   1. That is what `softmax` does. It turns arbitrary scores into a proper
+   1.0. That is what `softmax` does. It turns arbitrary scores into a proper
    probability distribution.
 
 3. **A way to stay stable.** Numbers that pass through dozens of weighted sums
